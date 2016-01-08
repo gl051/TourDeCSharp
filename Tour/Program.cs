@@ -13,7 +13,7 @@ namespace Gl051.Tour
             ISample s = new Samples.TaskDemo();
             Console.WriteLine(s.Descripton);
             s.Run();
-            Console.Out.WriteLine("Sample ends.");
+            Console.Out.WriteLine("Sample ended, press enter for finish.");
             Console.ReadLine();
         } 
     }
