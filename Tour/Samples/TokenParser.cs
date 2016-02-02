@@ -17,6 +17,14 @@ namespace Gl051.Tour.Samples
 
         public void Run()
         {
+            ReadValues();
+            WriteValues();
+        }
+
+        #endregion
+
+        private void ReadValues() {
+
             const char CHAR_SEPARATOR = ';';
             const string TOKEN = "GroupId";
             String inputString = "DataSource=ABC.XYZ.123;Credentials=QSRC001;GroupId=134506;";
@@ -38,13 +46,26 @@ namespace Gl051.Tour.Samples
             dict.TryGetValue(TOKEN, out value);
 
             // Or you can go through the dictionary items to get them all
-            foreach(var k in dict){
-                Console.WriteLine("{0} = {1}", k.Key, k.Value);
-            }
-         
+            foreach (var pair in dict)
+            {
+                Console.WriteLine("{0} = {1}", pair.Key, pair.Value);
+            }        
         }
 
-        #endregion
+        private void WriteValues() {
+            const char CHAR_SEPARATOR = '#';
+            Dictionary<String, int> dictInput = new Dictionary<string, int>();
+            dictInput.Add("Milan", 100);
+            dictInput.Add("San Francisco", 56);
+            dictInput.Add("Tokyo", 234);
+
+            StringBuilder strOutput = new StringBuilder();
+            foreach (var pair in dictInput) {
+                strOutput.Append(pair.Key + "=" + pair.Value.ToString() + CHAR_SEPARATOR);
+            }
+
+            Console.WriteLine(strOutput.ToString());            
+        }
     }
 
 }
