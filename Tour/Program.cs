@@ -10,7 +10,7 @@ namespace Gl051.Tour
     {
         static void Main(string[] args)
         {
-            ISample s = new Samples.TaskDemo();
+            ISample s = new Samples.TokenParser();
             Console.WriteLine(s.Descripton);
             s.Run();
             Console.Out.WriteLine("Sample ended, press enter for finish.");
