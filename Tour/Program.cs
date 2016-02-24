@@ -10,11 +10,16 @@ namespace Gl051.Tour
     {
         static void Main(string[] args)
         {
-            ISample s = new Samples.TokenParser();
+            ISample s = GetSample();
             Console.WriteLine(s.Descripton);
             s.Run();
             Console.Out.WriteLine("Sample ended, press enter for finish.");
-            Console.ReadLine();
-        } 
+            Console.WriteLine("Press a key to close ...");
+            Console.ReadKey();
+        }
+
+        static ISample GetSample() {
+            return new Samples.StreamDemo();
+        }
     }
 }
