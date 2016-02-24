@@ -45,6 +45,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Samples\DelegateDemo.cs" />
+    <Compile Include="Samples\StreamDemo.cs" />
     <Compile Include="Samples\TaskDemo.cs" />
     <Compile Include="Samples\TokenParser.cs" />
   </ItemGroup>
