@@ -19,6 +19,11 @@ namespace Gl051.Tour.Samples
     */
     
 
+    // A delegate is a type that represents reference to methods with a specific signature and return type
+    // Let's define a StringDoSomething type:
+    public delegate void StringManipulatorDelegate(String strInput); // you have  define the type 
+
+    
     public class DelegateDemo : ISample
     {
         
@@ -31,22 +36,23 @@ namespace Gl051.Tour.Samples
 
         public void Run()
         {
- 	        throw new NotImplementedException();
+            BroadcastingExample();
+            
         }
 
         #endregion
 
+     
         static void Example1()
         {
+            /*
             string[] names = { "Gianluca", "Lisa", "Sofia", "Antonio" };
 
             // Instanciate and calling a delegate 
             Magician.MagicNumberDelegate myDelFunction = Util.MyMagicNumberFormula;
             myDelFunction("dummy call");
 
-            /**********************************/
-            /* Delegate passed as parameter   */
-            /**********************************/
+            
 
             // 1) I can use a function 
             int[] mnA = Magician.GetMagicArray(names, Util.MyMagicNumberFormula);
@@ -63,10 +69,14 @@ namespace Gl051.Tour.Samples
                 Console.WriteLine("{0} magic number = {1}", names[k], mnZ[k]);
                 Console.WriteLine("{0} magic number = {1}", names[k], mnB[k]);
             }
+            
+             */ 
+            
         }
-
+        
         static void Example2()
         {
+            /*
             // A delegate can refer to more functions and all of them will be executed when called (multicasting)
             Broadcaster.broadcastDelegate mydel = Util.MyHello1;
             mydel += Util.MyHello2;
@@ -77,68 +87,78 @@ namespace Gl051.Tour.Samples
             Console.WriteLine("Unregister a function");
             mydel -= Util.MyHello1;
             Broadcaster.RunMultiCast(mydel);
+             */
         }
-    }
 
-    static class Magician
-    {
-        public delegate int MagicNumberDelegate(string str);
+        private void BroadcastingExample() {
+            String cityName = "San Francisco";
+            Console.WriteLine("Using delegates to broadcast a string manipulation: {0}", cityName);
+            
+            // A delegate instance is a referece (similar to a pointer) to one or more methods
+            StringManipulatorDelegate del = null;
+            
+            // First method to be delegated to executem, it's a reference and not call to the method.
+            del += ReverseMyString;
+            // Another one added (order of execution is the same as the addition)
+            del += UpperMyString;
+            // One more method to add
+            del += RemoveVowelsMyString;
+            
+            // Calling the delegate, broadast the call to all delegated functions
+            del(cityName);
 
-        // We use a delegate to wire up dinamically a function to the execution of the method.
-        // Calling this method will requires to provide the function to the fmagic delegate.
-        // This class is so more generic and doesn't know how the MagicNumber is provided,
-        // dinamically you have control on what will be executed by passing a different function 
-        // (decoupling)
+            // Remove a delegate method
+            del -= RemoveVowelsMyString;
 
-        public static int[] GetMagicArray(string[] names, MagicNumberDelegate fmagic)
+            del(cityName);
+        }
+
+        private void PluginMethodExample() { 
+            string name = "New York City";
+
+            // You can use delegate to plug-in method at runtime
+            DelegateDemo.Tranform(name, UpperMyString); 
+            // 
+            DelegateDemo.Tranform(name, UpperMyString);
+            DelegateDemo.Tranform(name, UpperMyString);
+            
+        }
+
+        public static void Tranform(String name, StringManipulatorDelegate del) {
+            del(name);
+        }
+
+        # region Private Methods
+        private void ReverseMyString(String strInput)
         {
-            int[] arrOutput = new int[names.Length];
+            Console.WriteLine(strInput.Reverse().ToArray());
+        }
 
-            for (int i = 0; i < arrOutput.Length; i++)
+        private void UpperMyString(String strInput)
+        {
+            Console.WriteLine(strInput.ToUpper());
+        }
+
+        private void RemoveVowelsMyString(String strInput)
+        {
+            char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
+
+            foreach (char c in strInput)
             {
-                arrOutput[i] = fmagic(names[i]);
+                if (vowels.Contains(c) == false)
+                    Console.Write(c);
             }
 
-            return arrOutput;
+            Console.WriteLine();
         }
+        #endregion
 
     }
 
-    class Broadcaster
-    {
-        public delegate void broadcastDelegate();
+   
 
-        public static void RunMultiCast(broadcastDelegate del)
-        {
-            // Only need to call the delegate and the action will be broadcasted 
-            // to all the functions registered at the delegate instance
-            del();
-        }
-    }
+   
 
-    class Util
-    {
-        public static int MyMagicNumberFormula(string str)
-        {
-            return 5;
-        }
-
-        public static void MyHello1()
-        {
-            Console.WriteLine("Hello1 at " + System.DateTime.Now.ToString("hh:mm:ss:ff"));
-            System.Threading.Thread.Sleep(500);
-        }
-
-        public static void MyHello2()
-        {
-            Console.WriteLine("Hello2 at " + System.DateTime.Now.ToString("hh:mm:ss:ff"));
-        }
-
-        public static void MyHello3()
-        {
-            System.Threading.Thread.Sleep(500);
-            Console.WriteLine("Hello3 at " + System.DateTime.Now.ToString("hh:mm:ss:ff"));
-        }
-    }
+   
 
 }
