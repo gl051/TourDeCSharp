@@ -19,7 +19,7 @@ namespace Gl051.Tour
         }
 
         static ISample GetSample() {
-            return new Samples.StreamDemo();
+            return new Samples.EncodingConvertDemo();
         }
     }
 }
